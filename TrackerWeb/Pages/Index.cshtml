@@ -1,0 +1,48 @@
+﻿@page
+@model IndexModel
+@using TrackerWeb.Extensions
+@using Humanizer
+@{
+    ViewData["Title"] = "Home";
+}
+
+<div class="mt-5">
+    <h1 class="display-4">Issues Tracker!</h1>
+    <div class="mt-3">
+        <a asp-page="/Issues/Create" class="w-20 btn btn-primary m-2">+ Add new Issue</a>
+        @if (Model.Issues.Count() == 0)
+        {
+            <p>No issues to fix</p>
+        }
+        else
+        {
+            <div class="row g-0">
+
+                @foreach (var issue in Model.Issues)
+                {
+                    
+                        <div class="card col-3 m-2">
+                            <div class="card-header">
+                                @issue.IssueType
+                            </div>
+                            <div class="card-body">
+                                <h5 class="card-title text-truncate">
+                                    <a asp-page="/Issues/Detail" asp-route-id="@issue.Id" class="link-dark text-decoration-none">@issue.Title</a>
+                                </h5>
+                                <span class="@issue.Priority.ToCssClass()">Level: @issue.Priority</span>
+                                <div class="flex gap-2 py-2 text-gray">
+                                    <a asp-page="Issues/Edit" asp-route-id="@issue.Id" class="btn btn-sm btn-outline-info">Edit</a>
+                                    <a asp-page="Issues/Delete" asp-route-id="@issue.Id" class="btn btn-sm btn-outline-danger">Delete</a>
+                                </div>
+                            </div>
+                            <div class="card-footer text-muted">
+                                <small>Created: @issue.Created</small>
+                            </div>
+                        </div>
+                    
+                }
+
+            </div>
+        }
+  
+
